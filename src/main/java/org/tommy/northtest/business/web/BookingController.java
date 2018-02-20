@@ -47,7 +47,7 @@ public class BookingController {
   }
 
   @PostMapping
-  public ResponseEntity<BookingResponse> book(@RequestBody BookingRequest request) {
+  public ResponseEntity<BookingResponse> book(@RequestBody final BookingRequest request) {
     validateDaysToBook(request.getDays());
     return ok(bookingComponent.doCampsiteBooking(request));
   }
