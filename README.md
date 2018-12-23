@@ -1,7 +1,3 @@
-## How to run?
-
-`./mvnw spring-boot:run`
-
 
 ## System requirements
 
@@ -21,6 +17,12 @@ Provide an end point for reserving the campsite. The user will provide his/her e
 Due to the popularity of the island, there is a high likelihood of multiple users attempting to reserve the campsite for the same/overlapping date(s). Demonstrate with appropriate test cases that the system can gracefully handle concurrent requests to reserve the campsite. Provide appropriate error messages to the caller to indicate the error cases.
 In general, the system should be able to handle large volume of requests for getting the campsite availability.
 There are no restrictions on how reservations are stored as as long as system constraints are not violated.
+
+
+## How to run?
+
+`./mvnw spring-boot:run`
+
 
 ## Swagger URL after deploy locally
 
