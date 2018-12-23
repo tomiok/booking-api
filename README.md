@@ -1,4 +1,14 @@
 
+## Tech stack
+
+ - Java 8
+ - Spring boot 
+ - Maven 3.3.5
+ - Docker
+ - Caffeine Cache
+ - Swagger
+ - Lombok
+
 ## System requirements
 
 An underwater volcano formed a new small island in the Pacific Ocean last month. All the conditions on the island seems perfect and it was decided to open it up for the general public to experience the pristine uncharted territory.
