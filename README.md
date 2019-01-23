@@ -28,6 +28,11 @@ Due to the popularity of the island, there is a high likelihood of multiple user
 In general, the system should be able to handle large volume of requests for getting the campsite availability.
 There are no restrictions on how reservations are stored as as long as system constraints are not violated.
 
+- Provide the info for the availability (1 months for default) - Endpoint.
+- Provide an API to reserving the campsite. (user data - email - arrival and departure date. 3 days at max).
+- Return a booking identifier.
+- Search by booking identifier.
+- Handle concurent requests.
 
 ## How to run?
 
