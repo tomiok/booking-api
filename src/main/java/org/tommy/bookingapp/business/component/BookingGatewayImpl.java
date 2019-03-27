@@ -25,7 +25,7 @@ public class BookingGatewayImpl implements BookingGateway {
 
   @Override
   public Set<SystemBooking> findAllBookings(LocalDate from) {
-    return newHashSet(bookingRepository.findAll());
+    return bookingRepository.findAllAfter(from);
   }
 
   @Override
