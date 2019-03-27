@@ -20,6 +20,6 @@ public interface BookingRepository extends CrudRepository<SystemBooking, Long> {
   int updateBooking(@Param("identifier") final String identifier, @Param("from") final LocalDate from,
                     @Param("to") final LocalDate to);
 
-  @Query("select b from Booking b where b.bookingFrom > :from ")
+  @Query("select b from SystemBooking b where b.bookingFrom > :from ")
   Set<SystemBooking> findAllAfter(@Param("from") LocalDate from);
 }
