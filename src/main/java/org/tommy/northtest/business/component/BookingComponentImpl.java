@@ -3,10 +3,7 @@ package org.tommy.northtest.business.component;
 import static java.util.stream.Collectors.toSet;
 
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
@@ -72,7 +69,8 @@ class BookingComponentImpl implements BookingComponent {
 
     Set<Booking> systemBookings = getSystemBookings();
 
-    systemBookings.remove(new Booking(booking.getBookingIdentifier(), booking.getBookingFrom(), booking.getBookingTo()));
+    systemBookings
+        .remove(new Booking(booking.getBookingIdentifier(), booking.getBookingFrom(), booking.getBookingTo()));
     //remove actual booking in the set.
 
     LocalDate bookingFrom = request.getUpdatedBookingFrom();
@@ -101,18 +99,10 @@ class BookingComponentImpl implements BookingComponent {
   @Override
   public Set<LocalDate> availableDays(final LocalDate from, final LocalDate to) {
 
-    return availabilityService.getAvailableDays(bookingGateway
-        .findAllBookings(LocalDate.now())
-        .stream()
-        .map(b -> createSet(b.getBookingFrom(), b.getBookingTo()))
-        .flatMap(Set::stream)
-        .collect(toSet()), from, to);
-  }
-
-  private Set<LocalDate> createSet(final LocalDate from, final LocalDate to) {
-    int days = Period.between(from, to).getDays();
-    return Stream.iterate(from, f -> from.plusDays(1))
-        .limit(days)
-        .collect(Collectors.toSet());
+    return availabilityService.getAvailableDays(
+        bookingGateway.findAllBookings(LocalDate.now()),
+        from,
+        to
+    );
   }
 }
