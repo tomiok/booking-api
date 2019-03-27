@@ -19,7 +19,7 @@ import org.tommy.northtest.business.component.BookingComponent;
 import org.tommy.northtest.business.component.BookingRequest;
 import org.tommy.northtest.business.component.BookingResponse;
 import org.tommy.northtest.business.component.UpdateBookingRequest;
-import org.tommy.northtest.business.domain.Booking;
+import org.tommy.northtest.business.domain.SystemBooking;
 
 @RestController
 @RequestMapping("/booking")
@@ -69,7 +69,7 @@ public class BookingController {
   }
 
   @GetMapping("/{identifier}")
-  public ResponseEntity<Booking> viewDomainBooking(@PathVariable("identifier") final String identifier) {
+  public ResponseEntity<SystemBooking> viewDomainBooking(@PathVariable("identifier") final String identifier) {
     return ok(bookingComponent.viewBooking(identifier));
   }
 

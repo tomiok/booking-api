@@ -10,6 +10,7 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
+import org.tommy.northtest.business.domain.SystemBooking;
 import org.tommy.northtest.business.usecase.availability.AvailabilityService;
 import org.tommy.northtest.business.usecase.reservation.Booking;
 import org.tommy.northtest.business.usecase.reservation.ReservationService;
@@ -55,7 +56,7 @@ class BookingComponentImpl implements BookingComponent {
 
   private Set<Booking> getSystemBookings() {
     return bookingGateway
-        .findAllBookings()
+        .findAllBookings(LocalDate.now())
         .stream()
         .map(b -> new Booking(b.getBookingIdentifier(), b.getBookingFrom(), b.getBookingTo()))
         .collect(toSet());
@@ -64,7 +65,7 @@ class BookingComponentImpl implements BookingComponent {
   @Override
   @Transactional
   public BookingResponse updateBooking(final String identifier, final UpdateBookingRequest request) {
-    org.tommy.northtest.business.domain.Booking booking = bookingGateway.findOne(identifier);
+    SystemBooking booking = bookingGateway.findOne(identifier);
     if (booking == null) {
       throw new IllegalArgumentException("No bookings found with that identifier!");
     }
@@ -93,7 +94,7 @@ class BookingComponentImpl implements BookingComponent {
   }
 
   @Override
-  public org.tommy.northtest.business.domain.Booking viewBooking(final String identifier) {
+  public SystemBooking viewBooking(final String identifier) {
     return bookingGateway.findOne(identifier);
   }
 
@@ -101,7 +102,7 @@ class BookingComponentImpl implements BookingComponent {
   public Set<LocalDate> availableDays(final LocalDate from, final LocalDate to) {
 
     return availabilityService.getAvailableDays(bookingGateway
-        .findAllBookings()
+        .findAllBookings(LocalDate.now())
         .stream()
         .map(b -> createSet(b.getBookingFrom(), b.getBookingTo()))
         .flatMap(Set::stream)

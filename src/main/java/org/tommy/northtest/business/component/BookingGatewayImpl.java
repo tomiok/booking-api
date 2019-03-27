@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.Set;
 import java.util.UUID;
 import org.springframework.transaction.annotation.Transactional;
-import org.tommy.northtest.business.domain.Booking;
+import org.tommy.northtest.business.domain.SystemBooking;
 import org.tommy.northtest.business.domain.BookingRepository;
 
 public class BookingGatewayImpl implements BookingGateway {
@@ -19,12 +19,12 @@ public class BookingGatewayImpl implements BookingGateway {
 
   @Override
   public String saveBooking(final BookingRequest request) {
-    Booking booking = bookingRepository.save(toDomainObject(request));
+    SystemBooking booking = bookingRepository.save(toDomainObject(request));
     return booking.getBookingIdentifier();
   }
 
   @Override
-  public Set<Booking> findAllBookings() {
+  public Set<SystemBooking> findAllBookings() {
     return newHashSet(bookingRepository.findAll());
   }
 
@@ -35,7 +35,7 @@ public class BookingGatewayImpl implements BookingGateway {
   }
 
   @Override
-  public Booking findOne(final String identifier) {
+  public SystemBooking findOne(final String identifier) {
     return bookingRepository.findByBookingIdentifier(identifier);
   }
 
@@ -44,8 +44,8 @@ public class BookingGatewayImpl implements BookingGateway {
     return bookingRepository.updateBooking(identifier, from, to);
   }
 
-  private Booking toDomainObject(final BookingRequest request) {
-    Booking booking = new Booking();
+  private SystemBooking toDomainObject(final BookingRequest request) {
+    SystemBooking booking = new SystemBooking();
 
     booking.setBookingIdentifier(getRandomUuidIdentifier());
     booking.setBookingFrom(request.getBookingFrom());

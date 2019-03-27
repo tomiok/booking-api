@@ -11,7 +11,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Booking {
+public class SystemBooking {
 
   @Id
   @GeneratedValue
@@ -19,8 +19,14 @@ public class Booking {
 
   private String bookingIdentifier;
 
+  /**
+   * Inclusive date.
+   */
   private LocalDate bookingFrom;
 
+  /**
+   * Exclusive date
+   */
   private LocalDate bookingTo;
 
   @Version
