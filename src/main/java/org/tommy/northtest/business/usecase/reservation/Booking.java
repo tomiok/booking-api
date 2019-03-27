@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class Book {
+public class Booking {
 
   private final String identifier;
 
@@ -23,13 +23,12 @@ public class Book {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Book book = (Book) o;
+    Booking book = (Booking) o;
     return Objects.equals(identifier, book.identifier);
   }
 
   @Override
   public int hashCode() {
-
     return Objects.hash(identifier);
   }
 }

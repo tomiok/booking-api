@@ -4,5 +4,5 @@ import java.util.Set;
 
 public interface ReservationService {
 
-  boolean isArrangeAvailable(final Set<Book> systemBookings, final Book userBooking);
+  boolean isArrangeAvailable(final Set<Booking> systemBookings, final Booking userBooking);
 }

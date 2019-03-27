@@ -3,12 +3,15 @@ package org.tommy.northtest.business.component;
 import static java.util.stream.Collectors.toSet;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.tommy.northtest.business.domain.Booking;
+import org.springframework.transaction.annotation.Transactional;
 import org.tommy.northtest.business.usecase.availability.AvailabilityService;
-import org.tommy.northtest.business.usecase.reservation.Book;
+import org.tommy.northtest.business.usecase.reservation.Booking;
 import org.tommy.northtest.business.usecase.reservation.ReservationService;
 
 class BookingComponentImpl implements BookingComponent {
@@ -31,11 +34,11 @@ class BookingComponentImpl implements BookingComponent {
 
   @Override
   public BookingResponse doCampsiteBooking(final BookingRequest bookingRequest) {
-    Set<Book> systemBookings = getSystemBookings();
+    Set<Booking> systemBookings = getSystemBookings();
     LocalDate bookingFrom = bookingRequest.getBookingFrom();
     LocalDate bookingTo = bookingFrom.plusDays(bookingRequest.getDays());
 
-    Book userBook = new Book(null, bookingFrom, bookingTo);
+    Booking userBook = new Booking(null, bookingFrom, bookingTo);
     boolean isAvailable = reservationService.isArrangeAvailable(systemBookings, userBook);
 
     if (isAvailable) {
@@ -50,24 +53,25 @@ class BookingComponentImpl implements BookingComponent {
     return bookingGateway.deleteBooking(identifier);
   }
 
-  private Set<Book> getSystemBookings() {
+  private Set<Booking> getSystemBookings() {
     return bookingGateway
         .findAllBookings()
         .stream()
-        .map(b -> new Book(b.getBookingIdentifier(), b.getBookingFrom(), b.getBookingTo()))
+        .map(b -> new Booking(b.getBookingIdentifier(), b.getBookingFrom(), b.getBookingTo()))
         .collect(toSet());
   }
 
   @Override
+  @Transactional
   public BookingResponse updateBooking(final String identifier, final UpdateBookingRequest request) {
-    Booking booking = bookingGateway.findOne(identifier);
+    org.tommy.northtest.business.domain.Booking booking = bookingGateway.findOne(identifier);
     if (booking == null) {
       throw new IllegalArgumentException("No bookings found with that identifier!");
     }
 
-    Set<Book> systemBookings = getSystemBookings();
+    Set<Booking> systemBookings = getSystemBookings();
 
-    systemBookings.remove(new Book(booking.getBookingIdentifier(), booking.getBookingFrom(), booking.getBookingTo()));
+    systemBookings.remove(new Booking(booking.getBookingIdentifier(), booking.getBookingFrom(), booking.getBookingTo()));
     //remove actual booking in the set.
 
     LocalDate bookingFrom = request.getUpdatedBookingFrom();
@@ -76,7 +80,7 @@ class BookingComponentImpl implements BookingComponent {
     booking.setBookingTo(bookingTo);
 
     boolean isAvailable = reservationService.isArrangeAvailable(systemBookings,
-        new Book(booking.getBookingIdentifier(), booking.getBookingFrom(), booking.getBookingTo()));
+        new Booking(booking.getBookingIdentifier(), booking.getBookingFrom(), booking.getBookingTo()));
 
     if (isAvailable) {
       int updatedBookings = bookingGateway.updateBooking(identifier, bookingFrom, bookingTo);
@@ -89,7 +93,7 @@ class BookingComponentImpl implements BookingComponent {
   }
 
   @Override
-  public Booking viewBooking(final String identifier) {
+  public org.tommy.northtest.business.domain.Booking viewBooking(final String identifier) {
     return bookingGateway.findOne(identifier);
   }
 
@@ -105,6 +109,9 @@ class BookingComponentImpl implements BookingComponent {
   }
 
   private Set<LocalDate> createSet(final LocalDate from, final LocalDate to) {
-    return from.datesUntil(to).collect(toSet());
+    int days = Period.between(from, to).getDays();
+    return Stream.iterate(from, f -> from.plusDays(1))
+        .limit(days)
+        .collect(Collectors.toSet());
   }
 }

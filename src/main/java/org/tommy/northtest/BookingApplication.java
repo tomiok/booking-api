@@ -6,10 +6,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class NorthTestApplication {
+public class BookingApplication {
 
   public static void main(String[] args) {
-    SpringApplication.run(NorthTestApplication.class, args);
+    SpringApplication.run(BookingApplication.class, args);
   }
 
   @PostConstruct

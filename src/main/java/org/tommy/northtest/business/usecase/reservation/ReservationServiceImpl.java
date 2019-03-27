@@ -5,7 +5,7 @@ import java.util.Set;
 
 public class ReservationServiceImpl implements ReservationService {
 
-  private static boolean isOverlapping(final Book systemBook, final Book userBook) {
+  private static boolean isOverlapping(final Booking systemBook, final Booking userBook) {
     LocalDate startSystem = systemBook.getFrom();
     LocalDate endSystem = systemBook.getTo();
 
@@ -16,7 +16,7 @@ public class ReservationServiceImpl implements ReservationService {
   }
 
   @Override
-  public boolean isArrangeAvailable(final Set<Book> systemBookings, final Book userBooking) {
+  public boolean isArrangeAvailable(final Set<Booking> systemBookings, final Booking userBooking) {
 
     boolean overlaps = systemBookings
         .stream()
