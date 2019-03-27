@@ -2,7 +2,6 @@ package org.tommy.bookingapp.business.component;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 import org.tommy.bookingapp.business.domain.SystemBooking;
 
 public interface BookingComponent {

@@ -3,10 +3,10 @@ package org.tommy.bookingapp.business.component;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.tommy.bookingapp.business.usecase.availability.AvailabilityService;
-import org.tommy.bookingapp.business.usecase.availability.AvailabilityServiceImpl;
 import org.tommy.bookingapp.business.domain.BookingRepository;
 import org.tommy.bookingapp.business.domain.UserRepository;
+import org.tommy.bookingapp.business.usecase.availability.AvailabilityService;
+import org.tommy.bookingapp.business.usecase.availability.AvailabilityServiceImpl;
 import org.tommy.bookingapp.business.usecase.reservation.ReservationService;
 import org.tommy.bookingapp.business.usecase.reservation.ReservationServiceImpl;
 

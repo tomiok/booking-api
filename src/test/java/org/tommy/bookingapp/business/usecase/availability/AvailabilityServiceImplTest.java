@@ -30,12 +30,12 @@ public class AvailabilityServiceImplTest {
                 of(2018, 1, 3)),
             new SystemBooking(
                 "xxaa2",
-                of(2018,1,10),
-                of(2018,1,13)),
+                of(2018, 1, 10),
+                of(2018, 1, 13)),
             new SystemBooking(
                 "xxaa23",
-                of(2018,1,20),
-                of(2018,1,21))
+                of(2018, 1, 20),
+                of(2018, 1, 21))
         );
     List<LocalDate> days = availabilityService.getAvailableDays(booked, of(2018, 1, 1), of(2018, 1, 31));
 

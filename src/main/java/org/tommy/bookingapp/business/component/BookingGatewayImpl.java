@@ -1,13 +1,11 @@
 package org.tommy.bookingapp.business.component;
 
-import static com.google.common.collect.Sets.newHashSet;
-
 import java.time.LocalDate;
 import java.util.Set;
 import java.util.UUID;
 import org.springframework.transaction.annotation.Transactional;
-import org.tommy.bookingapp.business.domain.SystemBooking;
 import org.tommy.bookingapp.business.domain.BookingRepository;
+import org.tommy.bookingapp.business.domain.SystemBooking;
 
 public class BookingGatewayImpl implements BookingGateway {
 
@@ -31,7 +29,7 @@ public class BookingGatewayImpl implements BookingGateway {
   @Override
   @Transactional
   public int deleteBooking(final String identifier) {
-     return bookingRepository.deleteBookingByBookingIdentifier(identifier);
+    return bookingRepository.deleteBookingByBookingIdentifier(identifier);
   }
 
   @Override
