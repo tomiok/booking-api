@@ -11,8 +11,14 @@ public class Booking {
 
   private final String identifier;
 
+  /**
+   * Inclusive date
+   */
   private final LocalDate from;
 
+  /**
+   * Exclusive date
+   */
   private final LocalDate to;
 
   @Override
