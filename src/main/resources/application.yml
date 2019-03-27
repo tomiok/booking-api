@@ -9,16 +9,24 @@ spring:
     username: sa
     password:
     driverClassName: org.h2.Driver
-    initialize: false
+    initialization-mode: never
   jpa:
     show-sql: true
     hibernate:
       ddl-auto: create-drop
-
+    database-platform: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      enabled: true
+      path: /console
+      settings:
+        trace: false
+        web-allow-others: false
 server:
-  context-path: /api
   port: 8080
   compression:
     enabled: true
     mime-types: appilication/json
     min-response-size: 1024
+  servlet:
+    context-path: /api
