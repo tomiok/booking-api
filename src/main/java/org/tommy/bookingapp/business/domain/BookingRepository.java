@@ -1,6 +1,7 @@
 package org.tommy.bookingapp.business.domain;
 
 import java.time.LocalDate;
+import java.util.Optional;
 import java.util.Set;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -12,7 +13,7 @@ public interface BookingRepository extends CrudRepository<SystemBooking, Long> {
 
   int deleteBookingByBookingIdentifier(final String bookingIdentifier);
 
-  SystemBooking findByBookingIdentifier(final String bookingIdentifier);
+  Optional<SystemBooking> findByBookingIdentifier(final String bookingIdentifier);
 
   @Modifying
   @Transactional

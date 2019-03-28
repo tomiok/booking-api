@@ -34,7 +34,7 @@ class BookingComponentImpl implements BookingComponent {
   @Override
   public BookingResponse doCampsiteBooking(final BookingRequest bookingRequest) {
     Set<Booking> systemBookings = getSystemBookings();
-    LocalDate bookingFrom = bookingRequest.getBookingFrom();
+    LocalDate bookingFrom = LocalDate.parse(bookingRequest.getBookingFrom());
     LocalDate bookingTo = bookingFrom.plusDays(bookingRequest.getDays());
 
     Booking userBook = new Booking(null, bookingFrom, bookingTo);
@@ -64,9 +64,6 @@ class BookingComponentImpl implements BookingComponent {
   @Transactional
   public BookingResponse updateBooking(final String identifier, final UpdateBookingRequest request) {
     SystemBooking booking = bookingGateway.findOne(identifier);
-    if (booking == null) {
-      throw new IllegalArgumentException("No bookings found with that identifier!");
-    }
 
     Set<Booking> systemBookings = getSystemBookings();
 
