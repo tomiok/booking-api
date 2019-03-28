@@ -3,6 +3,7 @@ package org.tommy.bookingapp.business.component;
 import java.time.LocalDate;
 import java.util.Set;
 import java.util.UUID;
+import javax.persistence.EntityNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 import org.tommy.bookingapp.business.domain.BookingRepository;
 import org.tommy.bookingapp.business.domain.SystemBooking;
@@ -34,7 +35,7 @@ public class BookingGatewayImpl implements BookingGateway {
 
   @Override
   public SystemBooking findOne(final String identifier) {
-    return bookingRepository.findByBookingIdentifier(identifier);
+    return bookingRepository.findByBookingIdentifier(identifier).orElseThrow(EntityNotFoundException::new);
   }
 
   @Override
@@ -46,8 +47,8 @@ public class BookingGatewayImpl implements BookingGateway {
     SystemBooking booking = new SystemBooking();
 
     booking.setBookingIdentifier(getRandomUuidIdentifier());
-    booking.setBookingFrom(request.getBookingFrom());
-    booking.setBookingTo(request.getBookingFrom().plusDays(request.getDays()));
+    booking.setBookingFrom(LocalDate.parse(request.getBookingFrom()));
+    booking.setBookingTo(LocalDate.parse(request.getBookingFrom()).plusDays(request.getDays()));
 
     return booking;
   }
