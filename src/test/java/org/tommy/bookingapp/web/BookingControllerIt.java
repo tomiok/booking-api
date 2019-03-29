@@ -69,6 +69,8 @@ public class BookingControllerIt {
 
     assertThat(resBooking).isNotNull();
     assertThat(resBooking.getBookingIdentifier()).isEqualTo(bId);
+    assertThat(resBooking.getBookingFrom()).isEqualTo("2018-01-01");
+    assertThat(resBooking.getBookingTo()).isEqualTo("2018-01-03");
   }
 
   private String createURLWithPort(String uri) {
