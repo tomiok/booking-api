@@ -23,6 +23,8 @@ import org.tommy.bookingapp.business.domain.SystemBooking;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class BookingControllerIt {
 
+  private static final String BOOKING_API = "/booking";
+
   @LocalServerPort
   private int port;
 
@@ -47,7 +49,7 @@ public class BookingControllerIt {
         3);
     HttpEntity<String> createEntity = new HttpEntity<>(om.writeValueAsString(req), headers);
     ResponseEntity<String> response = restTemplate
-        .exchange(createURLWithPort("/booking"), HttpMethod.POST, createEntity, String.class);
+        .exchange(createURLWithPort(BOOKING_API), HttpMethod.POST, createEntity, String.class);
 
     assertThat(response.getBody()).isNotEmpty();
     assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -58,7 +60,7 @@ public class BookingControllerIt {
     String bId = bookingIdentifier.getBookingIdentifier();
     ResponseEntity<SystemBooking> getResponse = restTemplate
         .exchange(
-            createURLWithPort("/booking/" + bId),
+            createURLWithPort(BOOKING_API + "/" + bId),
             HttpMethod.GET,
             getEntity,
             SystemBooking.class);
