@@ -17,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.tommy.bookingapp.business.component.BookingRequest;
+import org.tommy.bookingapp.business.domain.SystemBooking;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -44,12 +45,26 @@ public class BookingControllerIt {
         "tomi@msn.com",
         "2018-01-01",
         3);
-    HttpEntity<String> httpEntity = new HttpEntity<>(om.writeValueAsString(req), headers);
+    HttpEntity<String> createEntity = new HttpEntity<>(om.writeValueAsString(req), headers);
     ResponseEntity<String> response = restTemplate
-        .exchange(createURLWithPort("/booking"), HttpMethod.POST, httpEntity, String.class);
+        .exchange(createURLWithPort("/booking"), HttpMethod.POST, createEntity, String.class);
 
     assertThat(response.getBody()).isNotEmpty();
     assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+    HttpEntity<String> getEntity = new HttpEntity<>(null, headers);
+
+    SystemBooking bookingIdentifier = om.readValue(response.getBody(), SystemBooking.class);
+    String bId = bookingIdentifier.getBookingIdentifier();
+    ResponseEntity<SystemBooking> getResponse = restTemplate
+        .exchange(
+            createURLWithPort("/booking/" + bId),
+            HttpMethod.GET,
+            getEntity,
+            SystemBooking.class);
+
+    System.out.println(getResponse.getBody());
+
   }
 
   private String createURLWithPort(String uri) {

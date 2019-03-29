@@ -8,6 +8,7 @@ import javax.persistence.Version;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @Entity
 @NoArgsConstructor
@@ -42,5 +43,16 @@ public class SystemBooking {
 
   public LocalDate getBookingTo() {
     return this.bookingTo.minusDays(1);
+  }
+
+  @Override
+  public String toString() {
+    return new ToStringBuilder(this)
+        .append("id", id)
+        .append("bookingIdentifier", bookingIdentifier)
+        .append("bookingFrom", bookingFrom)
+        .append("bookingTo", bookingTo)
+        .append("version", version)
+        .toString();
   }
 }
