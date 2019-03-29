@@ -65,8 +65,10 @@ public class BookingControllerIt {
             getEntity,
             SystemBooking.class);
 
-    System.out.println(getResponse.getBody());
+    SystemBooking resBooking = getResponse.getBody();
 
+    assertThat(resBooking).isNotNull();
+    assertThat(resBooking.getBookingIdentifier()).isEqualTo(bId);
   }
 
   private String createURLWithPort(String uri) {
