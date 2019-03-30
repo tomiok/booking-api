@@ -1,6 +1,5 @@
 package org.tommy.bookingapp.business.component;
 
-import java.time.LocalDate;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class UpdateBookingRequest {
 
-  private LocalDate updatedBookingFrom;
+  private String updatedBookingFrom;
 
   private int days;
 }

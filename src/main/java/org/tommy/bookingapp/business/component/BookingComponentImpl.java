@@ -71,7 +71,7 @@ class BookingComponentImpl implements BookingComponent {
         .remove(new Booking(booking.getBookingIdentifier(), booking.getBookingFrom(), booking.getBookingTo()));
     //remove actual booking in the set.
 
-    LocalDate bookingFrom = request.getUpdatedBookingFrom();
+    LocalDate bookingFrom = LocalDate.parse(request.getUpdatedBookingFrom());
     LocalDate bookingTo = bookingFrom.plusDays(request.getDays());
     booking.setBookingFrom(bookingFrom);
     booking.setBookingTo(bookingTo);

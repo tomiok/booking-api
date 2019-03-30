@@ -40,17 +40,8 @@ public class BookingControllerIt {
   }
 
   @Test
-  public void bookingTest() throws Exception {
-    BookingRequest req = new BookingRequest(
-        "tomas",
-        "lingotti",
-        "tomi@msn.com",
-        "2018-01-01",
-        3);
-    HttpEntity<String> createEntity = new HttpEntity<>(om.writeValueAsString(req), headers);
-    ResponseEntity<String> response = restTemplate
-        .exchange(createURLWithPort(BOOKING_API), HttpMethod.POST, createEntity, String.class);
-
+  public void saveAndGetBookingTest() throws Exception {
+    ResponseEntity<String> response = saveBooking("2018-01-01", 3);
     assertThat(response.getBody()).isNotEmpty();
     assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 
@@ -71,6 +62,26 @@ public class BookingControllerIt {
     assertThat(resBooking.getBookingIdentifier()).isEqualTo(bId);
     assertThat(resBooking.getBookingFrom()).isEqualTo("2018-01-01");
     assertThat(resBooking.getBookingTo()).isEqualTo("2018-01-03");
+  }
+
+  @Test
+  public void saveAndUpdateBookingTest() throws Exception {
+    ResponseEntity<String> response = saveBooking("2019-01-01", 3);
+    String identifier = om.readValue(response.getBody(), SystemBooking.class).getBookingIdentifier();
+
+
+
+  }
+
+  private ResponseEntity<String> saveBooking(String from, int days) throws Exception {
+    BookingRequest req = new BookingRequest(
+        "tomas",
+        "lingotti",
+        "tomi@msn.com",
+        from,
+        days);
+    HttpEntity<String> createEntity = new HttpEntity<>(om.writeValueAsString(req), headers);
+    return restTemplate.exchange(createURLWithPort(BOOKING_API), HttpMethod.POST, createEntity, String.class);
   }
 
   private String createURLWithPort(String uri) {
