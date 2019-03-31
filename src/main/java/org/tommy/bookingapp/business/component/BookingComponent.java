@@ -12,7 +12,7 @@ public interface BookingComponent {
 
   BookingResponse updateBooking(final String identifier, final UpdateBookingRequest request);
 
-  SystemBooking viewBooking(final String identifier);
+  BookingSummary findBookingByIdentifier(final String identifier);
 
   List<LocalDate> availableDays(final LocalDate from, final LocalDate to);
 }

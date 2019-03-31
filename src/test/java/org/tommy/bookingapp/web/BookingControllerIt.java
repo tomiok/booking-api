@@ -17,6 +17,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.tommy.bookingapp.business.component.BookingRequest;
+import org.tommy.bookingapp.business.component.BookingResponse;
+import org.tommy.bookingapp.business.component.BookingSummary;
+import org.tommy.bookingapp.business.component.UpdateBookingRequest;
 import org.tommy.bookingapp.business.domain.SystemBooking;
 
 @RunWith(SpringRunner.class)
@@ -47,7 +50,7 @@ public class BookingControllerIt {
 
     HttpEntity<String> getEntity = new HttpEntity<>(null, headers);
 
-    SystemBooking bookingIdentifier = om.readValue(response.getBody(), SystemBooking.class);
+    BookingSummary bookingIdentifier = om.readValue(response.getBody(), BookingSummary.class);
     String bId = bookingIdentifier.getBookingIdentifier();
     ResponseEntity<SystemBooking> getResponse = restTemplate
         .exchange(
@@ -69,8 +72,20 @@ public class BookingControllerIt {
     ResponseEntity<String> response = saveBooking("2019-01-01", 3);
     String identifier = om.readValue(response.getBody(), SystemBooking.class).getBookingIdentifier();
 
+    UpdateBookingRequest updateReq = new UpdateBookingRequest("2019-01-02", 3);
+    HttpEntity<UpdateBookingRequest> httpReq = new HttpEntity<>(updateReq, headers);
 
+    ResponseEntity<BookingResponse> responseValue = restTemplate
+        .exchange(
+            createURLWithPort(BOOKING_API + "/" + identifier),
+            HttpMethod.PUT,
+            httpReq,
+            BookingResponse.class);
 
+    BookingResponse httpResponse = responseValue.getBody();
+
+    assertThat(httpResponse).isNotNull();
+    assertThat(httpResponse.getBookingIdentifier()).isNotEmpty();
   }
 
   private ResponseEntity<String> saveBooking(String from, int days) throws Exception {

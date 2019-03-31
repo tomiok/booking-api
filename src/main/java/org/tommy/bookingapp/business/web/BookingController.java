@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.tommy.bookingapp.business.component.BookingComponent;
 import org.tommy.bookingapp.business.component.BookingRequest;
 import org.tommy.bookingapp.business.component.BookingResponse;
+import org.tommy.bookingapp.business.component.BookingSummary;
 import org.tommy.bookingapp.business.component.UpdateBookingRequest;
 import org.tommy.bookingapp.business.domain.SystemBooking;
 
@@ -69,8 +70,8 @@ public class BookingController {
   }
 
   @GetMapping("/{identifier}")
-  public ResponseEntity<SystemBooking> viewDomainBooking(@PathVariable("identifier") final String identifier) {
-    return ok(bookingComponent.viewBooking(identifier));
+  public ResponseEntity<BookingSummary> viewDomainBooking(@PathVariable("identifier") final String identifier) {
+    return ok(bookingComponent.findBookingByIdentifier(identifier));
   }
 
   @GetMapping("/check")

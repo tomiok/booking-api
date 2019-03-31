@@ -90,8 +90,8 @@ class BookingComponentImpl implements BookingComponent {
   }
 
   @Override
-  public SystemBooking viewBooking(final String identifier) {
-    return bookingGateway.findOne(identifier);
+  public BookingSummary findBookingByIdentifier(final String identifier) {
+    return new BookingSummary(bookingGateway.findOne(identifier));
   }
 
   @Override
