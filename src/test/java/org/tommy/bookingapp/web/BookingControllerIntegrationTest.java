@@ -3,8 +3,11 @@ package org.tommy.bookingapp.web;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.time.LocalDate;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -24,7 +27,7 @@ import org.tommy.bookingapp.business.domain.SystemBooking;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class BookingControllerIt {
+public class BookingControllerIntegrationTest {
 
   private static final String BOOKING_API = "/booking";
 
@@ -36,6 +39,9 @@ public class BookingControllerIt {
   private HttpHeaders headers = new HttpHeaders();
 
   private ObjectMapper om = new ObjectMapper();
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   @Before
   public void setUp() {
@@ -52,14 +58,14 @@ public class BookingControllerIt {
 
     BookingSummary bookingIdentifier = om.readValue(response.getBody(), BookingSummary.class);
     String bId = bookingIdentifier.getBookingIdentifier();
-    ResponseEntity<SystemBooking> getResponse = restTemplate
+    ResponseEntity<BookingSummary> getResponse = restTemplate
         .exchange(
             createURLWithPort(BOOKING_API + "/" + bId),
             HttpMethod.GET,
             getEntity,
-            SystemBooking.class);
+            BookingSummary.class);
 
-    SystemBooking resBooking = getResponse.getBody();
+    BookingSummary resBooking = getResponse.getBody();
 
     assertThat(resBooking).isNotNull();
     assertThat(resBooking.getBookingIdentifier()).isEqualTo(bId);
@@ -86,6 +92,27 @@ public class BookingControllerIt {
 
     assertThat(httpResponse).isNotNull();
     assertThat(httpResponse.getBookingIdentifier()).isNotEmpty();
+  }
+
+  @Test
+  public void shouldFailGivenUpdateRequestDateAlreadyBooked() throws Exception {
+    //thrown.expect(IllegalArgumentException.class);
+    LocalDate now = LocalDate.now();
+    ResponseEntity<String> response = saveBooking(now.toString(), 3);
+    saveBooking(now.plusDays(5).toString(), 3);
+    String identifier = om.readValue(response.getBody(), SystemBooking.class).getBookingIdentifier();
+
+    UpdateBookingRequest updateReq = new UpdateBookingRequest(now.plusDays(6).toString(), 3);
+    HttpEntity<UpdateBookingRequest> httpReq = new HttpEntity<>(updateReq, headers);
+
+    ResponseEntity<BookingResponse> res = restTemplate
+        .exchange(
+            createURLWithPort(BOOKING_API + "/" + identifier),
+            HttpMethod.PUT,
+            httpReq,
+            BookingResponse.class);
+
+    assertThat(res.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
   private ResponseEntity<String> saveBooking(String from, int days) throws Exception {
