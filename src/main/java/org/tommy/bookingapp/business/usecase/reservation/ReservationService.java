@@ -10,5 +10,5 @@ public interface ReservationService {
    *
    * @return {@code TRUE} if the date is available, otherwise {@code FALSE}
    */
-  boolean isArrangeAvailable(final Set<Booking> systemBookings, final Booking userBooking);
+  boolean checkAvailability(final Set<Booking> systemBookings, final Booking userBooking);
 }

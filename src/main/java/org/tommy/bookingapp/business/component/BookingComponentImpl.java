@@ -38,7 +38,7 @@ class BookingComponentImpl implements BookingComponent {
     LocalDate bookingTo = bookingFrom.plusDays(bookingRequest.getDays());
 
     Booking userBook = new Booking(null, bookingFrom, bookingTo);
-    boolean isAvailable = reservationService.isArrangeAvailable(systemBookings, userBook);
+    boolean isAvailable = reservationService.checkAvailability(systemBookings, userBook);
 
     if (isAvailable) {
       return new BookingResponse(bookingGateway.saveBooking(bookingRequest));
@@ -54,7 +54,7 @@ class BookingComponentImpl implements BookingComponent {
 
   private Set<Booking> getSystemBookings() {
     return bookingGateway
-        .findAllBookings(LocalDate.now())
+        .findAllBookingsFromDate(LocalDate.now())
         .stream()
         .map(b -> new Booking(b.getBookingIdentifier(), b.getBookingFrom(), b.getBookingTo()))
         .collect(toSet());
@@ -63,7 +63,7 @@ class BookingComponentImpl implements BookingComponent {
   @Override
   @Transactional
   public BookingResponse updateBooking(final String identifier, final UpdateBookingRequest request) {
-    SystemBooking booking = bookingGateway.findOne(identifier);
+    SystemBooking booking = bookingGateway.findByIdentifier(identifier);
 
     Set<Booking> systemBookings = getSystemBookings();
 
@@ -76,7 +76,7 @@ class BookingComponentImpl implements BookingComponent {
     booking.setBookingFrom(bookingFrom);
     booking.setBookingTo(bookingTo);
 
-    boolean isAvailable = reservationService.isArrangeAvailable(systemBookings,
+    boolean isAvailable = reservationService.checkAvailability(systemBookings,
         new Booking(booking.getBookingIdentifier(), booking.getBookingFrom(), booking.getBookingTo()));
 
     if (isAvailable) {
@@ -91,14 +91,14 @@ class BookingComponentImpl implements BookingComponent {
 
   @Override
   public BookingSummary findBookingByIdentifier(final String identifier) {
-    return new BookingSummary(bookingGateway.findOne(identifier));
+    return new BookingSummary(bookingGateway.findByIdentifier(identifier));
   }
 
   @Override
-  public List<LocalDate> availableDays(final LocalDate from, final LocalDate to) {
+  public List<LocalDate> findAvailableDays(final LocalDate from, final LocalDate to) {
 
     return availabilityService.getAvailableDays(
-        bookingGateway.findAllBookings(LocalDate.now()),
+        bookingGateway.findAllBookingsFromDate(LocalDate.now()),
         from,
         to
     );

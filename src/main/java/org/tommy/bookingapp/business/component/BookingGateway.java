@@ -8,11 +8,11 @@ public interface BookingGateway {
 
   String saveBooking(final BookingRequest request);
 
-  Set<SystemBooking> findAllBookings(LocalDate from);
+  Set<SystemBooking> findAllBookingsFromDate(LocalDate from);
 
   int deleteBooking(final String identifier);
 
-  SystemBooking findOne(final String identifier);
+  SystemBooking findByIdentifier(final String identifier);
 
   int updateBooking(final String identifier, final LocalDate from, final LocalDate to);
 }

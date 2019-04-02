@@ -49,7 +49,7 @@ public class ReservationServiceImplTest {
   @Test
   public void isArrangeAvailable() {
     Set<Booking> books = setUpBooks();
-    boolean available = reservationService.isArrangeAvailable(books, createUserBook(2018, 1, 5, 2));
+    boolean available = reservationService.checkAvailability(books, createUserBook(2018, 1, 5, 2));
 
     assertThat(available).isFalse();
   }
@@ -57,7 +57,7 @@ public class ReservationServiceImplTest {
   @Test
   public void shouldReturnTrue_whenCampsiteIsAvailable() {
     Set<Booking> books = setUpBooks();
-    boolean available = reservationService.isArrangeAvailable(books, createUserBook(2018, 1, 5, 0));
+    boolean available = reservationService.checkAvailability(books, createUserBook(2018, 1, 5, 0));
 
     assertThat(available).isTrue();
   }

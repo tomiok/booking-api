@@ -20,7 +20,6 @@ import org.tommy.bookingapp.business.component.BookingRequest;
 import org.tommy.bookingapp.business.component.BookingResponse;
 import org.tommy.bookingapp.business.component.BookingSummary;
 import org.tommy.bookingapp.business.component.UpdateBookingRequest;
-import org.tommy.bookingapp.business.domain.SystemBooking;
 
 @RestController
 @RequestMapping("/booking")
@@ -78,6 +77,6 @@ public class BookingController {
   public ResponseEntity<?> checkAvailability(@RequestParam("from") final String from,
                                              @RequestParam("to") final String to) {
     AvailabilityHttpRequest req = checkAndGetAvailabilityToSearch(from, to);
-    return ok(bookingComponent.availableDays(req.getFrom(), req.getTo()));
+    return ok(bookingComponent.findAvailableDays(req.getFrom(), req.getTo()));
   }
 }

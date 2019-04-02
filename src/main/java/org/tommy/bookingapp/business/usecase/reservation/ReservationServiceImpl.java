@@ -16,7 +16,7 @@ public class ReservationServiceImpl implements ReservationService {
   }
 
   @Override
-  public boolean isArrangeAvailable(final Set<Booking> systemBookings, final Booking userBooking) {
+  public boolean checkAvailability(final Set<Booking> systemBookings, final Booking userBooking) {
 
     boolean overlaps = systemBookings
         .stream()

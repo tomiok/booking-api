@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class AvailabilityHttpRequest {
+class AvailabilityHttpRequest {
 
   private LocalDate from;
 

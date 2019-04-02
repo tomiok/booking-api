@@ -23,7 +23,7 @@ public class BookingGatewayImpl implements BookingGateway {
   }
 
   @Override
-  public Set<SystemBooking> findAllBookings(LocalDate from) {
+  public Set<SystemBooking> findAllBookingsFromDate(LocalDate from) {
     return bookingRepository.findAllAfter(from);
   }
 
@@ -34,7 +34,7 @@ public class BookingGatewayImpl implements BookingGateway {
   }
 
   @Override
-  public SystemBooking findOne(final String identifier) {
+  public SystemBooking findByIdentifier(final String identifier) {
     return bookingRepository.findByBookingIdentifier(identifier).orElseThrow(EntityNotFoundException::new);
   }
 

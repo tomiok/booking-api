@@ -14,5 +14,5 @@ public interface BookingComponent {
 
   BookingSummary findBookingByIdentifier(final String identifier);
 
-  List<LocalDate> availableDays(final LocalDate from, final LocalDate to);
+  List<LocalDate> findAvailableDays(final LocalDate from, final LocalDate to);
 }
