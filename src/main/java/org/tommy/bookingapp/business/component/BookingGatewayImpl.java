@@ -16,6 +16,7 @@ public class BookingGatewayImpl implements BookingGateway {
     this.bookingRepository = bookingRepository;
   }
 
+  @Transactional
   @Override
   public String saveBooking(final BookingRequest request) {
     SystemBooking booking = bookingRepository.save(toDomainObject(request));

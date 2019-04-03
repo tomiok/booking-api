@@ -96,7 +96,6 @@ public class BookingControllerIntegrationTest {
 
   @Test
   public void shouldFailGivenUpdateRequestDateAlreadyBooked() throws Exception {
-    //thrown.expect(IllegalArgumentException.class);
     LocalDate now = LocalDate.now();
     ResponseEntity<String> response = saveBooking(now.toString(), 3);
     saveBooking(now.plusDays(5).toString(), 3);
